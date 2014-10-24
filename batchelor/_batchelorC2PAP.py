@@ -79,7 +79,15 @@ def submitJobs(config, newJobs):
 	for job in newJobs:
 		poolJobsArgs.append([config] + job)
 
-	pool = multiprocessing.Pool(processes = len(newJobs))
+	try:
+		nParallelSubmissions = int(config.get(submoduleIdentifier(), "parallel_submissions"))
+	except ValueError:
+		raise batchelor.BatchelorException('option \'parallel_submissions\' in config file does not seem to be an int.')
+	if nParallelSubmissions < 0:
+		nParallelSubmissions = len(newJobs)
+	nParallelSubmissions = min(nParallelSubmissions, len(newJobs))
+
+	pool = multiprocessing.Pool(processes = nParallelSubmissions)
 	jobIds = pool.map(_wrapSubmitJob, poolJobsArgs, 1)
 	pool.close()
 	pool.join()

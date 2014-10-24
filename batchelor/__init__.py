@@ -83,7 +83,7 @@ def checkConfig(configFileName, system = ""):
 	if system != "" and not config.has_section(system):
 		print("ERROR: System set but corresponding section is missing in config file.")
 		error = True
-	requiredOptions = { "c2pap": [ "group", "notification", "notify_user", "node_usage", "wall_clock_limit", "resources", "job_type", "class" ],
+	requiredOptions = { "c2pap": [ "group", "notification", "notify_user", "node_usage", "wall_clock_limit", "resources", "job_type", "class", "parallel_submissions" ],
 	                    "e18": [ "shortqueue", "memory", "header_file", "arch" ],
 	                    "gridka": [ "queue", "project", "memory", "header_file" ],
 	                    "lxplus": [ "queue", "pool", "header_file" ],
